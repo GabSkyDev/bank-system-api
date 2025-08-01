@@ -68,11 +68,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public User getOwner() {
+    public User getUser() {
         return user;
     }
 
-    public void setOwner(User owner) {
+    public void setUser(User user) {
         this.user = user;
     }
 
