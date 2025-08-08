@@ -4,7 +4,6 @@ import com.gabskydev.api.bank_system_api.model.Account;
 import com.gabskydev.api.bank_system_api.model.UserRole;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 

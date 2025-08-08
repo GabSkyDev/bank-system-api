@@ -10,6 +10,8 @@ import com.gabskydev.api.bank_system_api.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -17,13 +19,14 @@ public class AccountService {
     private final UserRepository userRepository;
     private final AccountMapper accountMapper;
 
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository, AccountMapper accountMapper) {
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository,
+            AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
         this.accountMapper = accountMapper;
     }
 
-    public AccountResponseDTO findAccountByUserId(UUID userId){
+    public AccountResponseDTO findAccountByUserId(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
@@ -32,13 +35,35 @@ public class AccountService {
         return accountMapper.toResponse(account);
     }
 
-    public AccountResponseDTO updateAccountByUserId(UUID userId, AccountRequestDTO requestDTO){
+    public AccountResponseDTO updateAccountByUserId(UUID userId, AccountRequestDTO requestDTO) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
-        Account account = accountMapper.toEntity(requestDTO);
+        Account account = accountMapper.toEntity(requestDTO, user);
         user.setAccount(account);
 
+        userRepository.save(user);
+
         return accountMapper.toResponse(account);
+    }
+
+    public List<AccountResponseDTO> findAccountsListByAgency(String agency) {
+        List<Account> accountList = accountRepository.findAllByAgency(agency)
+                .orElseThrow(() -> new RuntimeException("Agency not found!"));
+
+        return accountList
+                .stream()
+                .map(accountMapper::toResponse)
+                .toList();
+    }
+
+    public List<AccountResponseDTO> findAccountsListByAmountGreatherThan(BigDecimal amount) {
+        List<Account> accountList = accountRepository.findAllByBalanceGreaterThan(amount)
+                .orElseThrow(() -> new RuntimeException("Amount not found!"));
+
+        return accountList
+                .stream()
+                .map(accountMapper::toResponse)
+                .toList();
     }
 }

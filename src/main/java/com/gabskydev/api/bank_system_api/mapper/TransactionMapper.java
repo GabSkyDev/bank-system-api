@@ -2,6 +2,7 @@ package com.gabskydev.api.bank_system_api.mapper;
 
 import com.gabskydev.api.bank_system_api.dto.TransactionRequestDTO;
 import com.gabskydev.api.bank_system_api.dto.TransactionResponseDTO;
+import com.gabskydev.api.bank_system_api.model.Account;
 import com.gabskydev.api.bank_system_api.model.Transaction;
 import org.springframework.stereotype.Component;
 
@@ -20,15 +21,15 @@ public class TransactionMapper {
         );
     }
 
-    public Transaction toEntity(TransactionRequestDTO requestDTO){
+    public Transaction toEntity(TransactionRequestDTO requestDTO, Account origin, Account destination){
         return new Transaction(
                 requestDTO.id(),
                 requestDTO.timestamp(),
                 requestDTO.amount(),
                 requestDTO.type(),
                 requestDTO.description(),
-                requestDTO.origin(),
-                requestDTO.destination()
+                origin,
+                destination
         );
     }
 }

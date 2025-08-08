@@ -22,7 +22,7 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public List<UserResponseDTO> getAllUser(){
+    public List<UserResponseDTO> getAllUsers(){
         List<User> userList = userRepository.findAll();
         return userList
                 .stream()
@@ -42,10 +42,6 @@ public class UserService {
         userRepository.save(user);
 
         return userMapper.toResponse(user);
-    }
-
-    public void deleteUserById(UUID id){
-        userRepository.deleteById(id);
     }
 
     public UserResponseDTO updateUser(UUID id, UserRequestDTO requestDTO){

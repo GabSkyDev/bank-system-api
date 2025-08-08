@@ -1,8 +1,6 @@
 package com.gabskydev.api.bank_system_api.dto;
 
-
 import com.gabskydev.api.bank_system_api.model.Transaction;
-import com.gabskydev.api.bank_system_api.model.User;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,11 +12,11 @@ public record AccountRequestDTO(
         String numberAccount,
         String agency,
         BigDecimal balance,
-        User user,
+        String cpfUser,
         List<Transaction> sentTransactions,
         List<Transaction> receivedTransactions
     ){
-    public AccountRequestDTO(UUID id, String numberAccount, String agency, BigDecimal balance, User user){
-        this(id, numberAccount, agency, balance, user, new ArrayList<>(), new ArrayList<>());
+    public AccountRequestDTO(UUID id, String numberAccount, String agency, BigDecimal balance, String cpfUser){
+        this(id, numberAccount, agency, balance, cpfUser, new ArrayList<>(), new ArrayList<>());
     }
 }

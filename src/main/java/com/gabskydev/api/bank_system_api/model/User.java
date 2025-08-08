@@ -15,7 +15,7 @@ public class User {
     private String cpf;
     private String email;
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
     private Set<UserRole> roles;

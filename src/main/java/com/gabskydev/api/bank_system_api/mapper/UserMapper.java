@@ -14,7 +14,6 @@ public class UserMapper {
                 user.getCpf(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getAccount(),
                 user.getRoles()
         );
     }

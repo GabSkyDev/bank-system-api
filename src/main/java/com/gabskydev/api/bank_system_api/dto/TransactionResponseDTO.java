@@ -1,6 +1,5 @@
 package com.gabskydev.api.bank_system_api.dto;
 
-import com.gabskydev.api.bank_system_api.model.Account;
 import com.gabskydev.api.bank_system_api.model.TransactionType;
 
 import java.math.BigDecimal;
