@@ -1,6 +1,8 @@
 package com.gabskydev.api.bank_system_api.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "account_tb")
+@Getter
+@Setter
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,62 +37,6 @@ public class Account {
         this.balance = balance;
         this.user = user;
         this.sentTransactions = sentTransactions;
-        this.receivedTransactions = receivedTransactions;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getNumberAccount() {
-        return numberAccount;
-    }
-
-    public void setNumberAccount(String numberAccount) {
-        this.numberAccount = numberAccount;
-    }
-
-    public String getAgency() {
-        return agency;
-    }
-
-    public void setAgency(String agency) {
-        this.agency = agency;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Transaction> getSentTransactions() {
-        return sentTransactions;
-    }
-
-    public void setSentTransactions(List<Transaction> sentTransactions) {
-        this.sentTransactions = sentTransactions;
-    }
-
-    public List<Transaction> getReceivedTransactions() {
-        return receivedTransactions;
-    }
-
-    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
         this.receivedTransactions = receivedTransactions;
     }
 

@@ -1,12 +1,16 @@
 package com.gabskydev.api.bank_system_api.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transaction_tb")
+@Getter
+@Setter
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,62 +38,6 @@ public class Transaction {
         this.type = type;
         this.description = description;
         this.origin = origin;
-        this.destination = destination;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Account getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(Account origin) {
-        this.origin = origin;
-    }
-
-    public Account getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Account destination) {
         this.destination = destination;
     }
 }
