@@ -10,6 +10,5 @@ public record UserResponseDTO(
         String name,
         String cpf,
         String email,
-        String password,
         Set<UserRole> roles
     ){}

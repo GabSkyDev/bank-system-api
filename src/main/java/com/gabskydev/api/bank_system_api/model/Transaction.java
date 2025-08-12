@@ -27,9 +27,9 @@ public class Transaction {
 
     }
 
-    public Transaction(Long id, LocalDateTime timestamp, BigDecimal amount, TransactionType type, String description, Account origin, Account destination) {
+    public Transaction(Long id, BigDecimal amount, TransactionType type, String description, Account origin, Account destination) {
         this.id = id;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
         this.amount = amount;
         this.type = type;
         this.description = description;

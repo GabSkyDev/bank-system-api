@@ -1,15 +1,14 @@
 spring:
-  application:
-    name: bank-system-api
   datasource:
-    driver-class-name: org.postgresql.Driver
-    password: root
     url: jdbc:postgresql://localhost:5432/bankapi
     username: postgres
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+  sql:
+    init:
+      mode: always

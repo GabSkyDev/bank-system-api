@@ -91,4 +91,16 @@ public class Account {
     public void setReceivedTransactions(List<Transaction> receivedTransactions) {
         this.receivedTransactions = receivedTransactions;
     }
+
+    public void debit(BigDecimal amount){
+        if (balance.compareTo(amount) < 0){
+            throw new IllegalArgumentException("Insufficient funds");
+        }
+
+        balance = balance.subtract(amount);
+    }
+
+    public void credit(BigDecimal amount){
+        balance = balance.add(amount);
+    }
 }

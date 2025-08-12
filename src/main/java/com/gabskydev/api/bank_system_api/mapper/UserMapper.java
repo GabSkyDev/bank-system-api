@@ -13,7 +13,6 @@ public class UserMapper {
                 user.getName(),
                 user.getCpf(),
                 user.getEmail(),
-                user.getPassword(),
                 user.getRoles()
         );
     }

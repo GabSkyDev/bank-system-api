@@ -12,4 +12,5 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findByUserCpf(String cpf);
     Optional<List<Account>> findAllByAgency(String agency);
     Optional<List<Account>> findAllByBalanceGreaterThan(BigDecimal amount);
+    Optional<Account> findByAgencyAndNumberAccount(String agency, String numberAccount);
 }

@@ -7,6 +7,7 @@ import com.gabskydev.api.bank_system_api.model.Account;
 import com.gabskydev.api.bank_system_api.model.User;
 import com.gabskydev.api.bank_system_api.repository.AccountRepository;
 import com.gabskydev.api.bank_system_api.repository.UserRepository;
+import com.gabskydev.api.bank_system_api.security.SecurityService;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,15 +19,23 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
     private final AccountMapper accountMapper;
+    private final SecurityService securityService;
 
     public AccountService(AccountRepository accountRepository, UserRepository userRepository,
-            AccountMapper accountMapper) {
+                          AccountMapper accountMapper, SecurityService securityService) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
         this.accountMapper = accountMapper;
+        this.securityService = securityService;
     }
 
     public AccountResponseDTO findAccountByUserId(UUID userId) {
+        User loggedUser = securityService.getLoggedUser();
+
+        if (!loggedUser.getId().equals(userId)){
+            throw new RuntimeException("Access denied");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
@@ -57,13 +66,26 @@ public class AccountService {
                 .toList();
     }
 
-    public List<AccountResponseDTO> findAccountsListByAmountGreatherThan(BigDecimal amount) {
+    public List<AccountResponseDTO> findAccountsListByAmountGreaterThan(BigDecimal amount) {
         List<Account> accountList = accountRepository.findAllByBalanceGreaterThan(amount)
-                .orElseThrow(() -> new RuntimeException("Amount not found!"));
+                .orElseThrow(() -> new RuntimeException("Account with amount greater not found!"));
 
         return accountList
                 .stream()
                 .map(accountMapper::toResponse)
                 .toList();
+    }
+
+    public AccountResponseDTO findAccontByUserCpf(String cpf){
+        User loggedUser = securityService.getLoggedUser();
+
+        if (!loggedUser.getCpf().equals(cpf)){
+            throw new RuntimeException("Access denied");
+        }
+
+        Account account = accountRepository.findByUserCpf(cpf)
+                .orElseThrow(() -> new RuntimeException("Account not found!"));
+
+        return accountMapper.toResponse(account);
     }
 }

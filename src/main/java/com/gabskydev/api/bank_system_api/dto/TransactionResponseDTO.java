@@ -14,5 +14,4 @@ public record TransactionResponseDTO(
         String cpfOrigin,
         String nameDestination,
         String cpfDestination
-) {
-}
+) {}

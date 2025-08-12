@@ -9,22 +9,36 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionMapper {
     public TransactionResponseDTO toResponse(Transaction transaction){
+        String originName = null;
+        String originCpf = null;
+        String destinationName = null;
+        String destinationCpf = null;
+
+        if (transaction.getOrigin() != null) {
+            originName = transaction.getOrigin().getUser().getName();
+            originCpf = transaction.getOrigin().getUser().getCpf();
+        }
+
+        if (transaction.getDestination() != null) {
+            destinationName = transaction.getDestination().getUser().getName();
+            destinationCpf = transaction.getDestination().getUser().getCpf();
+        }
+
         return new TransactionResponseDTO(
                 transaction.getTimestamp(),
                 transaction.getAmount(),
                 transaction.getType(),
                 transaction.getDescription(),
-                transaction.getOrigin().getUser().getName(),
-                transaction.getOrigin().getUser().getCpf(),
-                transaction.getDestination().getUser().getName(),
-                transaction.getDestination().getUser().getCpf()
+                originName,
+                originCpf,
+                destinationName,
+                destinationCpf
         );
     }
 
     public Transaction toEntity(TransactionRequestDTO requestDTO, Account origin, Account destination){
         return new Transaction(
                 requestDTO.id(),
-                requestDTO.timestamp(),
                 requestDTO.amount(),
                 requestDTO.type(),
                 requestDTO.description(),

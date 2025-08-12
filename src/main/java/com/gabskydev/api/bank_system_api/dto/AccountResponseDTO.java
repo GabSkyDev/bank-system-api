@@ -9,5 +9,4 @@ public record AccountResponseDTO(
         BigDecimal balance,
         String cpfUser,
         String nameUser
-    ){
-}
+    ){}

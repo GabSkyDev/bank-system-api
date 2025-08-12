@@ -21,6 +21,7 @@ public class User {
     private Set<UserRole> roles;
 
     public User(){
+
     }
 
     public User(UUID id, String name, String cpf, String email, String password, Account account, Set<UserRole> roles) {
