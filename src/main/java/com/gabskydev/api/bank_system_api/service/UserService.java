@@ -5,6 +5,8 @@ import com.gabskydev.api.bank_system_api.dto.UserResponseDTO;
 import com.gabskydev.api.bank_system_api.mapper.UserMapper;
 import com.gabskydev.api.bank_system_api.model.User;
 import com.gabskydev.api.bank_system_api.repository.UserRepository;
+import com.gabskydev.api.bank_system_api.security.SecurityUtils;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,12 @@ public class UserService {
     }
 
     public UserResponseDTO getUserByEmail(String email){
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if (!authEmail.equals(email)) {
+            throw new RuntimeException("You can only access your own user data.");
+        }
+
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
@@ -42,6 +50,13 @@ public class UserService {
     public UserResponseDTO getUserById(UUID id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(user.getEmail())) {
+            throw new RuntimeException("You can only access your own user data.");
+        }
+        
         return userMapper.toResponse(user);
     }
 

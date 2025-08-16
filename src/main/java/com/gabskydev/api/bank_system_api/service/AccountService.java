@@ -7,6 +7,8 @@ import com.gabskydev.api.bank_system_api.model.Account;
 import com.gabskydev.api.bank_system_api.model.User;
 import com.gabskydev.api.bank_system_api.repository.AccountRepository;
 import com.gabskydev.api.bank_system_api.repository.UserRepository;
+import com.gabskydev.api.bank_system_api.security.SecurityUtils;
+
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -29,6 +31,12 @@ public class AccountService {
     public AccountResponseDTO findAccountByUserId(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(user.getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
 
         Account account = user.getAccount();
 
@@ -70,6 +78,12 @@ public class AccountService {
     public AccountResponseDTO findAccontByUserCpf(String cpf){
         Account account = accountRepository.findByUserCpf(cpf)
                 .orElseThrow(() -> new RuntimeException("Account not found!"));
+
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(account.getUser().getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
 
         return accountMapper.toResponse(account);
     }

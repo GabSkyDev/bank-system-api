@@ -7,6 +7,8 @@ import com.gabskydev.api.bank_system_api.model.Account;
 import com.gabskydev.api.bank_system_api.model.Transaction;
 import com.gabskydev.api.bank_system_api.repository.AccountRepository;
 import com.gabskydev.api.bank_system_api.repository.TransactionRepository;
+import com.gabskydev.api.bank_system_api.security.SecurityUtils;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,6 +32,12 @@ public class TransactionService {
         Account account = accountRepository.findByAgencyAndNumberAccount(agency, numberAccount)
                 .orElseThrow(() -> new RuntimeException("Account not found!"));
 
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(account.getUser().getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
+
 
         List<Transaction> transactions = new ArrayList<>();
 
@@ -46,6 +54,12 @@ public class TransactionService {
         Account account = accountRepository.findByAgencyAndNumberAccount(agency, numberAccount)
                 .orElseThrow(() -> new RuntimeException("Account not found!"));
 
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(account.getUser().getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
+
         List<Transaction> transactions = new ArrayList<>();
 
         transactions.addAll(account.getSentTransactions());
@@ -56,6 +70,12 @@ public class TransactionService {
     public List<TransactionResponseDTO> getReceivedTransactionList(String agency, String numberAccount){
         Account account = accountRepository.findByAgencyAndNumberAccount(agency, numberAccount)
                 .orElseThrow(() -> new RuntimeException("Account not found!"));
+
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(account.getUser().getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
 
         List<Transaction> transactions = new ArrayList<>();
 
@@ -68,6 +88,12 @@ public class TransactionService {
         Account account = accountRepository.findByAgencyAndNumberAccount(agency, numberAccount)
                 .orElseThrow(() -> new RuntimeException("Account not found!"));
 
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(account.getUser().getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
+        
         List<Transaction> transactions = new ArrayList<>();
 
         transactions.addAll(account.getReceivedTransactions());
@@ -83,6 +109,15 @@ public class TransactionService {
     }
 
     public TransactionResponseDTO createTransaction(String agency, String numberAccount, TransactionRequestDTO requestDTO){
+        Account account = accountRepository.findByAgencyAndNumberAccount(agency, numberAccount)
+                .orElseThrow(() -> new RuntimeException("Account not found!"));
+
+        String authEmail = SecurityUtils.getAuthenticatedUserEmail();
+
+        if(!authEmail.equals(account.getUser().getEmail())) {
+            throw new RuntimeException("You can only access your own account data.");
+        }
+
         String type = requestDTO.type().toString();
 
         return switch (type){
