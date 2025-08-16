@@ -25,7 +25,6 @@ API REST em Java com Spring Boot para simular operações bancárias entre usuá
 
 ## 🛠️ Tecnologias Utilizadas
 - Spring Boot
-- Spring Data JPA
 - Spring MVC
 - Spring Data JPA
 - Spring Security
