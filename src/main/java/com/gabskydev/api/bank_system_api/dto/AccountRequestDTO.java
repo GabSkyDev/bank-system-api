@@ -13,16 +13,16 @@ import java.util.UUID;
 
 public record AccountRequestDTO(
         UUID id,
-        @NotBlank(message = "O número da conta é obrigatório")
+        @NotBlank(message = "Number account cannot be blank")
         String numberAccount,
-        @NotBlank(message = "A agência é obrigatória")
-        @Pattern(regexp = "\\d{4}", message = "A agência deve conter exatamente 4 dígitos")
+        @NotBlank(message = "Agency cannot be blank")
+        @Pattern(regexp = "\\d{4}", message = "The agency need to have exactly numeric 4 digits")
         String agency,
-        @NotNull(message = "O saldo é obrigatório")
-        @DecimalMin(value = "0.0", inclusive = true, message = "O saldo não pode ser negativo")
+        @NotNull(message = "Balance cannot be blank")
+        @DecimalMin(value = "0.0", inclusive = true, message = "The balance cannot be negative")
         BigDecimal balance,
-        @NotBlank(message = "O CPF do usuário é obrigatório")
-        @Pattern(regexp = "\\d{11}", message = "O CPF deve conter exatamente 11 dígitos numéricos")
+        @NotBlank(message = "CPF cannot be blank")
+        @Pattern(regexp = "\\d{11}", message = "The CPF need to contain exactly 11 numeric digits")
         String cpfUser,
         List<Transaction> sentTransactions,
         List<Transaction> receivedTransactions

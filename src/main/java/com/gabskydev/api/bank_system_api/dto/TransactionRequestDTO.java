@@ -4,23 +4,21 @@ import com.gabskydev.api.bank_system_api.model.TransactionType;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public record TransactionRequestDTO(
         Long id,
-        @NotNull(message = "O valor da transação é obrigatório")
-        @DecimalMin(value = "0.01", inclusive = true, message = "O valor deve ser maior que zero")
+        @NotNull(message = "Amount cannot be blank")
+        @DecimalMin(value = "0.01", inclusive = true, message = "The amount need to be higher than zero")
         BigDecimal amount,
-        @NotNull(message = "O tipo da transação é obrigatório")
+        @NotNull(message = "Transaction type cannot be blank")
         TransactionType type,
-        @Size(max = 255, message = "A descrição pode ter no máximo 255 caracteres")
+        @Size(max = 255, message = "The description maximum size is 255 characters")
         String description,
 
-        @Pattern(regexp = "\\d{11}", message = "O CPF de origem deve conter exatamente 11 dígitos numéricos")
+        @Pattern(regexp = "\\d{11}", message = "The CPF origin need to have exactly 11 digits")
         String cpfOrigin,
 
-        @Pattern(regexp = "\\d{11}", message = "O CPF de destino deve conter exatamente 11 dígitos numéricos")
+        @Pattern(regexp = "\\d{11}", message = "The CPF destination need to have exactly 11 digits")
         String cpfDestination
 ) {
 }

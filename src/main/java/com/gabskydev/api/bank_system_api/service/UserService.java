@@ -5,8 +5,6 @@ import com.gabskydev.api.bank_system_api.dto.UserResponseDTO;
 import com.gabskydev.api.bank_system_api.mapper.UserMapper;
 import com.gabskydev.api.bank_system_api.model.User;
 import com.gabskydev.api.bank_system_api.repository.UserRepository;
-import com.gabskydev.api.bank_system_api.security.SecurityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +16,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final UserMapper userMapper;
-    private final SecurityService securityService;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder encoder, UserMapper userMapper, SecurityService securityService) {
+    public UserService(UserRepository userRepository, PasswordEncoder encoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.userMapper = userMapper;
-        this.securityService = securityService;
     }
 
 
@@ -38,12 +33,6 @@ public class UserService {
     }
 
     public UserResponseDTO getUserByEmail(String email){
-        User loggedUser = securityService.getLoggedUser();
-
-        if (!loggedUser.getEmail().equals(email)){
-            throw new RuntimeException("Access denied");
-        }
-
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
@@ -51,12 +40,6 @@ public class UserService {
     }
 
     public UserResponseDTO getUserById(UUID id){
-        User loggedUser = securityService.getLoggedUser();
-
-        if (!loggedUser.getId().equals(id)){
-            throw new RuntimeException("Access denied");
-        }
-
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
         return userMapper.toResponse(user);

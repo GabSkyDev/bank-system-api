@@ -10,20 +10,20 @@ import java.util.UUID;
 
 public record UserRequestDTO(
         UUID id,
-        @NotBlank(message = "O nome é obrigatório")
+        @NotBlank(message = "Name cannot be blank")
         String name,
         @Pattern(
                 regexp = "\\d{11}",
-                message = "O CPF deve conter exatamente 11 dígitos numéricos"
+                message = "The CPF origin need to have exactly 11 digits"
         )
         String cpf,
-        @Email(message = "O e-mail deve ser válido")
+        @Email(message = "Email need to be valid")
         String email,
-        @Size(min = 6, max = 20, message = "A senha deve ter entre 6 e 20 caracteres")
+        @Size(min = 6, max = 20, message = "The description maximum size is 255 characters")
         String password,
-        @NotNull(message = "A conta é obrigatória")
+        @NotNull(message = "Account cannot be blank")
         Account account,
-        @NotEmpty(message = "O usuário deve ter pelo menos um papel")
+        @NotEmpty(message = "User needs to have at least one role")
         Set<UserRole> roles
     ){
     public UserRequestDTO(UUID id, String name, String cpf, String email, String password, Account account){
